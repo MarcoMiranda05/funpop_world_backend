@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  fandom: MyString
+  image_url: MyString
+  release_date: 2019-07-15
+  category: MyString
+  item_number: 1
+
+two:
+  name: MyString
+  fandom: MyString
+  image_url: MyString
+  release_date: 2019-07-15
+  category: MyString
+  item_number: 1

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  funko: one
+  user: one
+  available_to_trade: false
+
+two:
+  funko: two
+  user: two
+  available_to_trade: false
