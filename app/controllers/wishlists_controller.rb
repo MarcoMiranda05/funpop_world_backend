@@ -15,6 +15,14 @@ class WishlistsController < ApplicationController
     )
   end
 
+  def my_wishlist
+    if logged_in
+      render json: User.find(current_user[:id]).wishlists
+    else
+      render json: {error: "Error fetching your wishlist"}
+    end
+  end
+
   def show
     wishlist = Wishlist.find(params[:id])
     render json: wishlist.to_json(
