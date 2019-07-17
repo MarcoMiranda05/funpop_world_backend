@@ -5,15 +5,15 @@ class Api::V1::UsersController < ApplicationController
       :except => [:password, :updated_at, :created_at],
       :include => {
         :collections => {
-          :only => [:id, :funko_id, :available_to_trade],
+          :only => [:id, :available_to_trade],
           :include => {:funko => {
-            :except => [:id, :item_number, :updated_at, :created_at]
+            :except => [:item_number, :updated_at, :created_at]
           }}
         }, 
         :wishlists => {
-          :only => [:id, :funko_id, :available_to_trade],
+          :only => [:id],
           :include => {:funko => {
-            :except => [:id, :item_number, :updated_at, :created_at]
+            :except => [:item_number, :updated_at, :created_at]
           }}
         } 
       }
