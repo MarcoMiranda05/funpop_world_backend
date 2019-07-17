@@ -1,18 +1,23 @@
 class Api::V1::UsersController < ApplicationController
   def index
-    users = []
-    User.all.each do |user|
-      user_hash = {
-        username: user[:username],
-        id: user[:id],
-        email: user[:email],
-        city: user[:city],
-        country: user[:country],
-        pic_url: user[:pic_url]
+    users = User.all
+    render json: users.to_json(
+      :except => [:password, :updated_at, :created_at],
+      :include => {
+        :collections => {
+          :only => [:id, :funko_id, :available_to_trade],
+          :include => {:funko => {
+            :except => [:id, :item_number, :updated_at, :created_at]
+          }}
+        }, 
+        :wishlists => {
+          :only => [:id, :funko_id, :available_to_trade],
+          :include => {:funko => {
+            :except => [:id, :item_number, :updated_at, :created_at]
+          }}
+        } 
       }
-      users << user_hash
-    end
-    render json: users
+    )
   end
 
   def create
