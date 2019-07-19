@@ -32,14 +32,7 @@ class ApplicationController < ActionController::API
         } 
       }
     )
-    # user_hash = {
-    #   username: user[:username],
-    #   id: user[:id],
-    #   email: user[:email],
-    #   city: user[:city],
-    #   country: user[:country],
-    #   pic_url: user[:pic_url]
-    # }
+   
   end
   
   def logged_in
