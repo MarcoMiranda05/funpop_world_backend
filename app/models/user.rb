@@ -1,7 +1,11 @@
 class User < ApplicationRecord
   has_secure_password
-  validates :username, uniqueness: { case_sensitive: false }
-  validates :email, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :password, presence: true
+  validates :city, presence: true
+  validates :country, presence: true
+  validates :pic_url, presence: true
 
   has_many :wishlists
   has_many :collections
