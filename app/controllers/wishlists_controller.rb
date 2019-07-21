@@ -38,23 +38,22 @@ class WishlistsController < ApplicationController
     )
   end
 
-  def new
-    wishlist = Wishlist.new
-  end
-
   def create 
     wishlist = Wishlist.new(wishlist_params)
     if wishlist.valid?
       wishlist.save
-      render json: wishlist
+      render json: wishlist.to_json(
+        :except => [:updated_at, :created_at],
+        :include => {
+          :funko => {
+            :except => [:updated_at, :created_at]
+          }
+        }
+      )
 
     else
       render json: {error: "Sorry was not possible add this Funko to your wishlist."}
     end
-  end
-
-  def edit
-    wishlist = Wishlist.find(params[:id])
   end
 
   def update

@@ -38,24 +38,24 @@ class CollectionsController < ApplicationController
     )
   end
 
-  def new
-    collection = Collection.new
-  end
-
   def create 
     collection = Collection.new(collection_params)
     if collection.valid?
       collection.save
-      render json: collection
+      render json: collection.to_json(
+        :except => [:updated_at, :created_at],
+        :include => {
+          :funko => {
+            :except => [:updated_at, :created_at]
+          }
+        }
+      )
 
     else
       render json: {error: "Sorry was not possible add this Funko to your collection."}
     end
   end
 
-  def edit
-    collection = Collection.find(params[:id])
-  end
 
   def update
     collection = Collection.find(params[:id])
