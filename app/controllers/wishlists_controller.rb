@@ -3,7 +3,7 @@ class WishlistsController < ApplicationController
   def index
     wishlists = Wishlist.all
     render json: wishlists.to_json(
-      :except => [:updated_at, :created_at],
+      :only => [:id],
       :include => {
         :funko => {
           :except => [:updated_at, :created_at]
@@ -26,7 +26,7 @@ class WishlistsController < ApplicationController
   def show
     wishlist = Wishlist.find(params[:id])
     render json: wishlist.to_json(
-      :except => [:updated_at, :created_at],
+      :only => [:id],
       :include => {
         :funko => {
           :except => [:updated_at, :created_at]

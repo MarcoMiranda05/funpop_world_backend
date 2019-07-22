@@ -3,7 +3,7 @@ class CollectionsController < ApplicationController
   def index
     collections = Collection.all
     render json: collections.to_json(
-      :except => [:updated_at, :created_at],
+      :only => [:id],
       :include => {
         :funko => {
           :except => [:updated_at, :created_at]
@@ -26,7 +26,7 @@ class CollectionsController < ApplicationController
   def show
     collection = Collection.find(params[:id])
     render json: collection.to_json(
-      :except => [:updated_at, :created_at],
+      :only => [:id],
       :include => {
         :funko => {
           :except => [:updated_at, :created_at]
