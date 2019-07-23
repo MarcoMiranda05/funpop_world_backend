@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/searchquery", to: "funkos#search"
+
   post "/auth/create", to: "auth#create"
   get "/auth/show", to: "auth#show"
 

@@ -14,4 +14,12 @@ class FunkosController < ApplicationController
     )
   end
 
+  def search
+    searchterm = params[:searchterm].downcase
+    results = Funko.where('name ILIKE ?', "%#{searchterm}%").or(Funko.where('fandom ILIKE ?', "%#{searchterm}%"))
+    render json: results.to_json(
+      :only => [:id, :name, :fandom, :image_url, :release_date, :item_number, :category]
+    )
+  end
+
 end

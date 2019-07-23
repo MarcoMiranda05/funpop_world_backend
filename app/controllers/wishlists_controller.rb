@@ -9,7 +9,7 @@ class WishlistsController < ApplicationController
           :except => [:updated_at, :created_at]
         },
         :user => {
-          :only => [:username, :city, :country, :email, :pic_url]
+          :except => [:updated_at, :created_at, :password_digest]
         }
       }
     )
@@ -32,7 +32,7 @@ class WishlistsController < ApplicationController
           :except => [:updated_at, :created_at]
         },
         :user => {
-          :only => [:username, :city, :country, :email, :pic_url]
+          :except => [:updated_at, :created_at, :password_digest]
         }
       }
     )
