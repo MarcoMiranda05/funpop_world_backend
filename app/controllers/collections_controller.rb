@@ -3,7 +3,7 @@ class CollectionsController < ApplicationController
   def index
     collections = Collection.all
     render json: collections.to_json(
-      :only => [:id],
+      :only => [:id, :available_to_trade],
       :include => {
         :funko => {
           :except => [:updated_at, :created_at]
@@ -26,7 +26,7 @@ class CollectionsController < ApplicationController
   def show
     collection = Collection.find(params[:id])
     render json: collection.to_json(
-      :only => [:id],
+      :only => [:id, :available_to_trade],
       :include => {
         :funko => {
           :except => [:updated_at, :created_at]
@@ -43,10 +43,13 @@ class CollectionsController < ApplicationController
     if collection.valid?
       collection.save
       render json: collection.to_json(
-        :except => [:updated_at, :created_at],
+        :only => [:id, :available_to_trade],
         :include => {
           :funko => {
             :except => [:updated_at, :created_at]
+          },
+          :user => {
+            :except => [:updated_at, :created_at, :password_digest]
           }
         }
       )
@@ -60,7 +63,17 @@ class CollectionsController < ApplicationController
   def update
     collection = Collection.find(params[:id])
     collection.update(collection_params)
-    render json: collection
+    render json: collection.to_json(
+      :only => [:id, :available_to_trade],
+      :include => {
+        :funko => {
+          :except => [:updated_at, :created_at]
+        },
+        :user => {
+          :except => [:updated_at, :created_at, :password_digest]
+        }
+      }
+    )
   end
 
   def destroy
@@ -69,6 +82,21 @@ class CollectionsController < ApplicationController
     collection.destroy
     render json: collections.to_json(
       :except => [:updated_at, :created_at],
+      :include => {
+        :funko => {
+          :except => [:updated_at, :created_at]
+        },
+        :user => {
+          :only => [:username, :city, :country, :email, :pic_url]
+        }
+      }
+    )
+  end
+
+  def funkos_available_to_trade
+    availables_to_trade = Collection.where('available_to_trade = ?', true )
+    render json: availables_to_trade.to_json(
+      :except => [:created_at, :updated_at],
       :include => {
         :funko => {
           :except => [:updated_at, :created_at]
