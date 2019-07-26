@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  incoming_funko_id: 1
+  outcoming_funko_id: 1
+  status: MyString
+
+two:
+  incoming_funko_id: 1
+  outcoming_funko_id: 1
+  status: MyString

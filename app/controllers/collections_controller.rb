@@ -2,58 +2,19 @@ class CollectionsController < ApplicationController
 
   def index
     collections = Collection.all
-    render json: collections.to_json(
-      :only => [:id, :available_to_trade],
-      :include => {
-        :funko => {
-          :except => [:updated_at, :created_at]
-        },
-        :user => {
-          :except => [:updated_at, :created_at, :password_digest]
-        }
-      }
-    )
-  end
-
-  def my_collection
-    if logged_in
-      render json: User.find(current_user[:id]).collections
-    else
-      render json: {error: "Error fetching your collection"}
-    end
+    render json: render_format(collections)
   end
 
   def show
     collection = Collection.find(params[:id])
-    render json: collection.to_json(
-      :only => [:id, :available_to_trade],
-      :include => {
-        :funko => {
-          :except => [:updated_at, :created_at]
-        },
-        :user => {
-          :except => [:updated_at, :created_at, :password_digest]
-        }
-      }
-    )
+    render json: render_format(collection)
   end
 
   def create 
     collection = Collection.new(collection_params)
     if collection.valid?
       collection.save
-      render json: collection.to_json(
-        :only => [:id, :available_to_trade],
-        :include => {
-          :funko => {
-            :except => [:updated_at, :created_at]
-          },
-          :user => {
-            :except => [:updated_at, :created_at, :password_digest]
-          }
-        }
-      )
-
+      render json: render_format(collection)
     else
       render json: {error: "Sorry was not possible add this Funko to your collection."}
     end
@@ -63,7 +24,29 @@ class CollectionsController < ApplicationController
   def update
     collection = Collection.find(params[:id])
     collection.update(collection_params)
-    render json: collection.to_json(
+    render json: render_format(collection)
+  end
+
+  def destroy
+    collections = Collection.all
+    collection = Collection.find(params[:id])
+    collection.destroy
+    render json: render_format(collections)
+  end
+
+  def funkos_available_to_trade
+    availables_to_trade = Collection.where('available_to_trade = ?', true )
+    render json: render_format(availables_to_trade)
+  end
+
+  private
+
+  def collection_params
+    params.require(:collection).permit(:funko_id, :user_id, :available_to_trade)
+  end
+
+  def render_format(x)
+    x.to_json(
       :only => [:id, :available_to_trade],
       :include => {
         :funko => {
@@ -74,44 +57,6 @@ class CollectionsController < ApplicationController
         }
       }
     )
-  end
-
-  def destroy
-    collections = Collection.all
-    collection = Collection.find(params[:id])
-    collection.destroy
-    render json: collections.to_json(
-      :except => [:updated_at, :created_at],
-      :include => {
-        :funko => {
-          :except => [:updated_at, :created_at]
-        },
-        :user => {
-          :only => [:username, :city, :country, :email, :pic_url]
-        }
-      }
-    )
-  end
-
-  def funkos_available_to_trade
-    availables_to_trade = Collection.where('available_to_trade = ?', true )
-    render json: availables_to_trade.to_json(
-      :except => [:created_at, :updated_at],
-      :include => {
-        :funko => {
-          :except => [:updated_at, :created_at]
-        },
-        :user => {
-          :only => [:username, :city, :country, :email, :pic_url]
-        }
-      }
-    )
-  end
-
-  private
-
-  def collection_params
-    params.require(:collection).permit(:funko_id, :user_id, :available_to_trade)
   end
 
 end

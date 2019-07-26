@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :collections
   resources :wishlists
   resources :funkos
+  resources :offers
 
   namespace :api do
     namespace :v1 do

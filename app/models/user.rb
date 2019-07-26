@@ -11,4 +11,5 @@ class User < ApplicationRecord
   has_many :collections
   has_many :funkos, through: :collections
   has_many :funkos, through: :wishlists
+  has_many :offers, through: :collections
 end
