@@ -34,10 +34,24 @@ class CollectionsController < ApplicationController
     render json: render_format(collections)
   end
 
-  def funkos_available_to_trade
+  def all_funkos_available_to_trade
     availables_to_trade = Collection.where('available_to_trade = ?', true )
     render json: render_format(availables_to_trade)
   end
+
+  def my_funkos_to_trade
+    user_id = params[:user_id]
+    availables_to_trade = Collection.where('user_id = ?', user_id).&(Collection.where('available_to_trade = ?', true))
+    render json: render_format(availables_to_trade)
+  end
+
+  def funkos_available_to_trade
+    user_id = params[:user_id]
+    availables_to_trade = Collection.where('user_id != ?', user_id).&(Collection.where('available_to_trade = ?', true))
+    render json: render_format(availables_to_trade)
+  end
+
+  
 
   private
 

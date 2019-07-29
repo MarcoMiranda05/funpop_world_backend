@@ -33,6 +33,29 @@ class OffersController < ApplicationController
     render json: render_format(offers)
   end
 
+  def my_offers
+    user_id = params[:user_id]
+    query =  <<-SQL
+    SELECT offers.id
+    FROM offers
+    JOIN collections
+    ON collections.id = offers.incoming_funko_id
+    JOIN users
+    ON users.id = collections.user_id
+    WHERE users.id = #{user_id}
+    UNION
+    SELECT offers.id
+    FROM offers
+    JOIN collections
+    ON collections.id = offers.outcoming_funko_id
+    JOIN users
+    ON users.id = collections.user_id
+    WHERE users.id = #{user_id};
+    SQL
+    offers = ActiveRecord::Base.connection.exec_query(query).to_hash.map{ |hash_obj| Offer.find(hash_obj["id"])}
+    render json: render_format(offers)
+  end
+
   private
 
   def offer_params

@@ -12,7 +12,10 @@ Rails.application.routes.draw do
 
   get "/searchquery", to: "funkos#search"
   get "/category", to: "funkos#category"
-  get "/funkos-to-trade", to:"collections#funkos_available_to_trade"
+  get "/all-funkos-to-trade", to:"collections#all_funkos_available_to_trade"
+  get "/my-funkos-to-trade", to:"collections#my_funkos_to_trade"
+  get "funkos-to-trade", to:"collections#funkos_available_to_trade"
+  get "my-offers", to:"offers#my_offers"
 
   post "/auth/create", to: "auth#create"
   get "/auth/show", to: "auth#show"

@@ -12,7 +12,7 @@ class FunkosController < ApplicationController
 
   def search
     searchterm = params[:searchterm].downcase
-    results = Funko.where('name ILIKE ?', "%#{searchterm}").or(Funko.where('fandom ILIKE ?', "%#{searchterm}"))
+    results = Funko.where('name ILIKE ?', "%#{searchterm}%").or(Funko.where('fandom ILIKE ?', "%#{searchterm}%"))
     render json: render_format(results)
   end
 
