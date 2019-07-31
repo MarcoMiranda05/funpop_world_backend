@@ -17,7 +17,7 @@ class FunkosController < ApplicationController
   end
 
   def category
-    searchterm = params[:searchterm].downcase
+    searchterm = params[:searchterm]
     category = Funko.where('category = ?', "#{searchterm}")
     render json: render_format(category)
   end
