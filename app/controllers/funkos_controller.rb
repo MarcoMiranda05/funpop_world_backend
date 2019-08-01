@@ -1,8 +1,9 @@
 class FunkosController < ApplicationController
 
   def index
-    funkos = Funko.all 
-    render json: render_format(funkos)
+    funkos = Funko.all
+    shuffle_funkos = funkos.shuffle
+    render json: render_format(shuffle_funkos)
   end
 
   def show
